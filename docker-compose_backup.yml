@@ -1,0 +1,36 @@
+# esta version del docker compose file es para cuando no
+# consideraba production y development
+version: '3'
+
+services:
+  reverse-proxy:
+    image: mi-nginx
+    container_name: reverse_proxy_subdomain
+    build:
+      context: ./nginx_docker_files
+    ports:
+      - 80:80
+#    env_file: 
+#      - ./passwords
+    networks:
+      - mi-red
+    depends_on: 
+      - node-web
+  node-web:
+    image: mi-node
+    container_name: node_app
+    hostname: node_app
+    build:
+      context: ./node_docker_files
+    ports:
+      - 3000:3000
+    volumes: 
+      - ./node_docker_files:/app
+    networks: 
+      - mi-red
+#    command: npm run dev #sobre escribe lo que haya en CMD del dockerfile
+
+networks: 
+  mi-red:
+    external: true
+  

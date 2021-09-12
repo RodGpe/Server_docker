@@ -1,0 +1,8 @@
+version: '3'
+services:
+  node-web:
+    volumes: 
+      - ./node_docker_files:/app
+    environment: 
+      - NODE_ENV=development
+    command: npm run dev
