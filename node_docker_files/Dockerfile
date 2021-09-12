@@ -3,7 +3,7 @@ WORKDIR /app
 COPY ./package.json /app
 RUN npm install
 # el siguiente RUN diferencia si está en development o en pruductión 
-
+# y el ARG son arguementos definidos en los archivos .yml
 ARG NODE_ENV
 RUN if [ "$NODE_ENV" = "development" ]; then npm install; else npm install --only=production; fi
 COPY . /app
