@@ -24,15 +24,22 @@ services:
     image: mi-node
     container_name: node_app
     hostname: node_app
+    env_file: 
+      - ./mongo_conn
     build:
       context: ./node_docker_files
     ports:
       - 3000:3000
     networks: 
       - mi-red
+    depends_on: 
+      - mongo
 #    command: npm run dev #sobre escribe lo que haya en CMD del dockerfile
   mongo:
     image: mongo #toma la imagen del repositorio oficial en la version/tag latest
+    networks: 
+      - mi-red
+    hostname: mongo_host
     env_file: 
       - ./pass_mongo 
     volumes: 

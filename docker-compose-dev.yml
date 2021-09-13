@@ -1,8 +1,11 @@
 version: '3'
 services:
   node-web:
+    build: 
+      args: #argumentos referenciados en los dockerfile
+        NODE_ENV: development 
     volumes: 
-      - ./node_docker_files:/app
+      - ./node_docker_files:/app #esto es un bind mount, ergo la maquinal local puede verlo
     environment: 
-      - NODE_ENV=development
+      - NODE_ENV=development #es distinto al NODE_ENV de la seccion args de build
     command: npm run dev

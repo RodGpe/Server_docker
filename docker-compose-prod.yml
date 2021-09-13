@@ -1,6 +1,9 @@
 version: '3'
 services:
   node-web:
+    build: 
+      args: #argumentos referenciados en los dockerfile
+        NODE_ENV: production
     environment: 
-      - NODE_ENV=production
+      - NODE_ENV=production #es distinto al NODE_ENV de la seccion args de build
     command:  node index.js
