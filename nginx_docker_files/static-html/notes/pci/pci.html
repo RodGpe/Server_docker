@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Marked in the browser</title>
+</head>
+
+<body>
+  <div id="content"></div>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    fetch('./pci.md')
+      .then(response => response.text())
+      .then((data) => {
+        marked.setOptions({
+          renderer: new marked.Renderer(),
+          highlight: function (code, lang) {
+            //const hljs = require('highlight.js'); //lo jala del cdn
+            const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+            return hljs.highlight(code, { language }).value;
+          },
+          langPrefix: 'hljs language-', // highlight.js css expects a top-level 'hljs' class.
+          pedantic: false,
+          gfm: true,
+          breaks: false,
+          sanitize: false,
+          smartLists: true,
+          smartypants: false,
+          xhtml: false
+        });
+        console.log(data)
+        document.getElementById('content').innerHTML =
+          marked.parse(data);
+      })
+
+  </script>
+</body>
+
+</html>
