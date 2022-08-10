@@ -15,11 +15,12 @@ services:
     ports:
       - 80:80
     volumes: 
+      - ./nginx_docker_files/cert/:/usr/share/nginx/cert/
       - ./nginx_docker_files/static-html/:/usr/share/nginx/html/ #esto es un bind mount, ergo la maquinal local puede verlo
 #    env_file: 
 #      - ./passwords
     networks:
-      - mi-red
+      - red-virtual
     depends_on: 
       - node-web
   node-web:
@@ -33,14 +34,14 @@ services:
     ports:
       - 3000:3000
     networks: 
-      - mi-red
+      - red-virtual
     depends_on: 
       - mongo
 #    command: npm run dev #sobre escribe lo que haya en CMD del dockerfile
   mongo:
     image: mongo #toma la imagen del repositorio oficial en la version/tag latest
     networks: 
-      - mi-red
+      - red-virtual
     hostname: mongo_host
     env_file: 
       - ./pass_mongo 
@@ -49,8 +50,8 @@ services:
 #    ports:             #comentar 
 #      - 27017:27017    #expone el puerto a internet, solo para pruebas
 networks: 
-  mi-red: #esta red la di de alta con los comandos de docker
-    external: true
+  red-virtual: #esta red la di de alta con los comandos de docker
+#    external: true  # external es para usar una que ya exista en docker
   
 volumes: 
   mongo-db:   #igual que el que tengo el service mongo
