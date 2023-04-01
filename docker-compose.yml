@@ -1,9 +1,9 @@
 # aqui van todas las configuraciones que se comparten entre produccion y development
 # para correr los contenedores en modo development 
 # se corré el siguiente comando (sí importa orden de los arcivos en los argumentos)
-# docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d
+# docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d --build
 # y si se quiere correr en modo de producción se corre el siguiente comando
-# docker-compose -f docker-compose.yml -f docker-compose-prod.yml up -d
+# docker-compose -f docker-compose.yml -f docker-compose-prod.yml up -d --build
 version: '3'
 
 services:
@@ -14,6 +14,7 @@ services:
       context: ./nginx_docker_files
     ports:
       - 80:80
+      - 443:443
     volumes: 
       - ./nginx_docker_files/cert/:/usr/share/nginx/cert/
       - ./nginx_docker_files/static-html/:/usr/share/nginx/html/ #esto es un bind mount, ergo la maquinal local puede verlo
@@ -51,7 +52,7 @@ services:
 #      - 27017:27017    #expone el puerto a internet, solo para pruebas
 networks: 
   red-virtual: #esta red la di de alta con los comandos de docker
-#    external: true  # external es para usar una que ya exista en docker
+    external: true  # external es para usar una que ya exista en docker
   
 volumes: 
   mongo-db:   #igual que el que tengo el service mongo
