@@ -1,0 +1,14 @@
+services:
+  vikunja:
+    image: vikunja/vikunja:2.2.2
+    env_file:
+      - .env
+    environment:
+      VIKUNJA_SERVICE_PUBLICURL: http://<your-server-ip>:3456/
+      VIKUNJA_DATABASE_PATH: /db/vikunja.db
+    ports:
+      - 3456:3456
+    volumes:
+      - ./files:/app/vikunja/files
+      - ./db:/db
+    restart: unless-stopped
