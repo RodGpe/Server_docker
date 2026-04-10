@@ -4,8 +4,6 @@
 # docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d --build
 # y si se quiere correr en modo de producción se corre el siguiente comando
 # docker-compose -f docker-compose.yml -f docker-compose-prod.yml up -d --build
-version: '3'
-
 services:
   reverse-proxy:
     image: mi-nginx
@@ -20,39 +18,11 @@ services:
       - ./nginx_docker_files/static-html/:/usr/share/nginx/html/ #esto es un bind mount, ergo la maquinal local puede verlo
 #    env_file: 
 #      - ./passwords
-    networks:
-      - red-virtual
-    depends_on: 
-      - node-web
-  node-web:
-    image: mi-node
-    container_name: node_app
-    hostname: node_app
-    env_file: 
-      - ./mongo_conn
-    build:
-      context: ./node_docker_files
-    ports:
-      - 3000:3000
-    networks: 
-      - red-virtual
-    depends_on: 
-      - mongo
-#    command: npm run dev #sobre escribe lo que haya en CMD del dockerfile
-  mongo:
-    image: mongo #toma la imagen del repositorio oficial en la version/tag latest
-    networks: 
-      - red-virtual
-    hostname: mongo_host
-    env_file: 
-      - ./pass_mongo 
-    volumes: 
-      - mongo-db:/data/db  #esto es un named volumen
-#    ports:             #comentar 
-#      - 27017:27017    #expone el puerto a internet, solo para pruebas
-networks: 
-  red-virtual: #esta red la di de alta con los comandos de docker
-    external: true  # external es para usar una que ya exista en docker
-  
-volumes: 
-  mongo-db:   #igual que el que tengo el service mongo
+    #networks:
+    #  - red-virtual
+
+
+#networks: 
+#  red-virtual: #esta red la di de alta con los comandos de docker
+#    external: true  # external es para usar una que ya exista en docker
+
