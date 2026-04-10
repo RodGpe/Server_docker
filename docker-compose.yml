@@ -18,11 +18,10 @@ services:
       - ./nginx_docker_files/static-html/:/usr/share/nginx/html/ #esto es un bind mount, ergo la maquinal local puede verlo
 #    env_file: 
 #      - ./passwords
-    #networks:
-    #  - red-virtual
+    networks:
+      - proxy_net
 
-
-#networks: 
-#  red-virtual: #esta red la di de alta con los comandos de docker
-#    external: true  # external es para usar una que ya exista en docker
+networks:
+  proxy_net:
+    external: true
 

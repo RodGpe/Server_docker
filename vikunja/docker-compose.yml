@@ -4,11 +4,21 @@ services:
     env_file:
       - .env
     environment:
-      VIKUNJA_SERVICE_PUBLICURL: http://<your-server-ip>:3456/
+      #VIKUNJA_SERVICE_PUBLICURL: http://<your-server-ip>:3456/
+      # Must match the URL users open in the browser (nginx TLS + Host).
+      VIKUNJA_SERVICE_PUBLICURL: https://vikunja.rodgpe.com/
       VIKUNJA_DATABASE_PATH: /db/vikunja.db
-    ports:
-      - 3456:3456
+    # Reachable only via reverse proxy on proxy_net (no host port publish).
+    #ports:
+    #  #- 3456:3456
+    #  - 127.0.0.1:3456:3456
     volumes:
       - ./files:/app/vikunja/files
       - ./db:/db
     restart: unless-stopped
+    networks:
+      - proxy_net
+
+networks:
+  proxy_net:
+    external: true

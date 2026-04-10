@@ -1,3 +1,4 @@
 pass_mongo
 nginx_docker_files/cert
 vikunja/.env
+n8n/n8n_data/config
