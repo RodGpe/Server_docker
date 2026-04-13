@@ -1,0 +1,19 @@
+services:
+  wallos:
+    container_name: wallos
+    image: bellamy/wallos:latest
+    #ports:
+    #  - "90:8282/tcp"
+    environment:
+      TZ: 'America/Toronto'
+    # Volumes store your data between container upgrades
+    volumes:
+      - './db:/var/www/html/db'
+      - './logos:/var/www/html/images/uploads/logos'
+    restart: unless-stopped
+    networks:
+      - proxy_net
+
+networks:
+  proxy_net:
+    external: true
