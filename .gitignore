@@ -1,4 +1,9 @@
-pass_mongo
 nginx_docker_files/cert
 vikunja/.env
 n8n/n8n_data/config
+
+# godaddy / certbot (do not commit keys, credentials, or ACME state)
+godaddy/secrets/
+godaddy/letsencrypt/
+godaddy/log/
+godaddy/.env

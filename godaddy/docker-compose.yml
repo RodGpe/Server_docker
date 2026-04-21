@@ -1,0 +1,15 @@
+services:
+  certbot-godaddy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: certbot-godaddy:test
+    container_name: certbot-godaddy-test
+    volumes:
+      - ./letsencrypt:/etc/letsencrypt
+      - ./lib:/var/lib/letsencrypt
+      - ./log:/var/log/letsencrypt
+      - ./secrets:/root/.secrets/certbot:ro
+    environment:
+      TZ: UTC
+    command: ["certbot", "--version"]
