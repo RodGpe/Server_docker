@@ -18,6 +18,7 @@ services:
       - ./nginx_docker_files/static-html/:/usr/share/nginx/html/ #esto es un bind mount, ergo la maquinal local puede verlo
 #    env_file: 
 #      - ./passwords
+    restart: unless-stopped
     networks:
       - proxy_net
 

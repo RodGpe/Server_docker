@@ -10,6 +10,27 @@ services:
       - ./lib:/var/lib/letsencrypt
       - ./log:/var/log/letsencrypt
       - ./secrets:/root/.secrets/certbot:ro
+      - ../nginx_docker_files/cert:/output
     environment:
       TZ: UTC
     command: ["certbot", "--version"]
+
+  certbot-renew:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: certbot-godaddy:test
+    container_name: certbot-godaddy-renew
+    volumes:
+      - ./letsencrypt:/etc/letsencrypt
+      - ./lib:/var/lib/letsencrypt
+      - ./log:/var/log/letsencrypt
+      - ./secrets:/root/.secrets/certbot:ro
+      - ../nginx_docker_files/cert:/output
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      TZ: UTC
+    # Base image ENTRYPOINT is `certbot`; use our script as entrypoint so it is not passed as an arg to certbot.
+    entrypoint: ["/usr/local/bin/entrypoint-renew.sh"]
+    command: []
+    restart: unless-stopped
