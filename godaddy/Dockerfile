@@ -37,5 +37,12 @@ RUN git clone https://github.com/miigotu/certbot-dns-godaddy.git \
 #CMD ["certbot", "--version"]
 COPY scripts/deploy-nginx-certs.sh /usr/local/bin/deploy-nginx-certs.sh
 COPY scripts/entrypoint-renew.sh /usr/local/bin/entrypoint-renew.sh
-RUN chmod +x /usr/local/bin/deploy-nginx-certs.sh /usr/local/bin/entrypoint-renew.sh \
-    && apk add --no-cache docker-cli
+COPY scripts/verify-production-cert.sh /usr/local/bin/verify-production-cert.sh
+COPY scripts/check-renewal-config.sh /usr/local/bin/check-renewal-config.sh
+COPY scripts/issue-production.sh /usr/local/bin/issue-production.sh
+RUN chmod +x /usr/local/bin/deploy-nginx-certs.sh \
+    /usr/local/bin/entrypoint-renew.sh \
+    /usr/local/bin/verify-production-cert.sh \
+    /usr/local/bin/check-renewal-config.sh \
+    /usr/local/bin/issue-production.sh \
+    && apk add --no-cache docker-cli openssl
